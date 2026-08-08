@@ -3,8 +3,8 @@ from agent.graph import app_graph
 
 st.set_page_config(page_title="Tech Research Assistant", page_icon="🔍")
 
-st.title("🔍 Smart Tech Research Assistant")
-st.caption("Ask questions about LangChain and LangGraph — powered by Agentic RAG (CRAG pattern)")
+st.title("🔍 CRAG Assistant")
+st.caption("Ask questions about LangChain and LangGraph — powered by Agentic RAG (Corrective RAG pattern)")
 
 with st.form("question_form"):
     question = st.text_input("Your question:", placeholder="e.g. What is a LangGraph node?")
