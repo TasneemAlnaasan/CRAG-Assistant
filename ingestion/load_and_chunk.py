@@ -3,13 +3,21 @@ from pathlib import Path
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from config.settings import settings
+import re 
+
+
+
+def clean_content(text: str) -> str:
+    text = re.sub(r":::js.*?:::", "", text, flags=re.DOTALL)
+    text = re.sub(r"^:::.*$", "", text, flags=re.MULTILINE)
+    text = re.sub(r"^import\s+.*\s+from\s+['\"].*['\"];?\s*$", "", text, flags=re.MULTILINE)
+    text = re.sub(r"<[A-Za-z][^>]*/>", "", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
 
 
 def load_documents(base_path: str = "temp_docs/src/oss") -> list[Document]:
-    """
-    يمشي جوه مجلدي langchain و langgraph،
-    يقرا كل ملف .mdx، ويحوّله لـ Document object.
-    """
+    
     target_folders = ["langchain", "langgraph"]
     documents = []
 
@@ -17,7 +25,10 @@ def load_documents(base_path: str = "temp_docs/src/oss") -> list[Document]:
         folder_path = Path(base_path) / folder_name
 
         for file_path in folder_path.rglob("*.mdx"):
+            if "javascript" in str(file_path).lower():
+                continue
             content = file_path.read_text(encoding="utf-8")
+            content=clean_content(content)
 
             if not content.strip():
                 continue
@@ -35,9 +46,7 @@ def load_documents(base_path: str = "temp_docs/src/oss") -> list[Document]:
 
 
 def chunk_documents(documents: list[Document]) -> list[Document]:
-    """
-    يقسّم كل document لقطع أصغر حسب الإعدادات في settings.py
-    """
+    
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=settings.CHUNK_SIZE,
         chunk_overlap=settings.CHUNK_OVERLAP,
