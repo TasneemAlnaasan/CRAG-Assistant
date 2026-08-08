@@ -4,11 +4,11 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 
 from ingestion.load_and_chunk import clean_content, chunk_documents
-from agent.graph import decide_next_step
+from agent.routing import decide_next_step
 from langchain_core.documents import Document
 
 
-# --- اختبارات clean_content ---
+# --- Testing clean_content ---
 
 def test_removes_js_code_block():
     input_text = """
@@ -74,7 +74,7 @@ def test_removes_extra_blank_lines():
     assert "\n\n\n" not in result
 
 
-# --- اختبار منطق فلترة JavaScript ---
+# --- Testing Filtering JavaScript ---
 
 def test_javascript_path_filter_logic():
     fake_path = "temp_docs/src/oss/javascript/some_file.mdx"
@@ -84,7 +84,7 @@ def test_javascript_path_filter_logic():
     assert "javascript" not in fake_path_python.lower()
 
 
-# --- اختبارات decide_next_step ---
+# --- Testing decide_next_step ---
 
 def test_decide_next_step_needs_web_search():
     state = {"web_search_needed": "yes"}
@@ -96,7 +96,7 @@ def test_decide_next_step_goes_to_generate():
     assert decide_next_step(state) == "generate"
 
 
-# --- اختبار chunk_documents ---
+# --- Testing chunk_documents ---
 
 def test_chunk_documents_splits_long_text():
     long_text = "This is a sentence. " * 200

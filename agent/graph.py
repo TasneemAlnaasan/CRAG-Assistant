@@ -1,17 +1,10 @@
-
 from langgraph.graph import StateGraph, END
 from agent.state import GraphState
+from agent.routing import decide_next_step
 from agent.nodes.retrieve import retrieve
 from agent.nodes.grade import grade
 from agent.nodes.web_search import web_search
 from agent.nodes.generate import generate
-
-
-def decide_next_step(state: GraphState) -> str:
-    
-    if state["web_search_needed"] == "yes":
-        return "web_search"
-    return "generate"
 
 
 workflow = StateGraph(GraphState)
