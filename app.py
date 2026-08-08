@@ -1,7 +1,7 @@
 import streamlit as st
 from agent.graph import app_graph
 
-st.set_page_config(page_title="Tech Research Assistant", page_icon="🔍")
+st.set_page_config(page_title="CRAG Assistant", page_icon="🔍")
 
 st.title("🔍 CRAG Assistant")
 st.caption("Ask questions about LangChain and LangGraph — powered by Agentic RAG (Corrective RAG pattern)")
