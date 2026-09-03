@@ -17,7 +17,7 @@ class Settings:
     # setting for the project
     VECTOR_DB_PATH = "./chroma_db"
     EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
-    LLM_MODEL_NAME = "llama-3.3-70b-versatile"
+    LLM_MODEL_NAME = "openai/gpt-oss-20b"
 
     # retrieval settings
     CHUNK_SIZE = 1000
